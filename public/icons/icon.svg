@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-label="Mudia WebQuote">
+  <rect width="128" height="128" fill="#f2ece1"/>
+  <rect x="20" y="16" width="88" height="96" fill="#e9e1d3" stroke="#17140f" stroke-width="4"/>
+  <path d="M32 40h64M32 56h64M32 72h44" stroke="#135a38" stroke-width="5" stroke-linecap="square"/>
+  <path d="M32 92h30" stroke="#c0402a" stroke-width="5"/>
+  <circle cx="94" cy="92" r="9" fill="none" stroke="#c0402a" stroke-width="4"/>
+</svg>

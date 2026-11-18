@@ -1,0 +1,88 @@
+@import "tailwindcss";
+
+@theme {
+  --color-paper: #f2ece1;
+  --color-sheet: #e9e1d3;
+  --color-rule: #d6cbb6;
+  --color-ink: #17140f;
+  --color-muted: #6e6455;
+  --color-ledger: #135a38;
+  --color-ledgerdark: #0c3d26;
+  --color-ledgerlight: #2e7d55;
+  --color-stamp: #c0402a;
+
+  --font-display: var(--font-instrument), "Iowan Old Style", Georgia, serif;
+  --font-sans: var(--font-plex-sans), system-ui, sans-serif;
+  --font-mono: var(--font-plex-mono), ui-monospace, "SFMono-Regular", monospace;
+}
+
+html {
+  scroll-behavior: smooth;
+  background-color: var(--color-paper);
+}
+
+body {
+  background-color: var(--color-paper);
+  background-image: url("/images/paper.jpg");
+  background-size: 640px;
+  background-blend-mode: multiply;
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  font-feature-settings: "kern";
+}
+
+::selection {
+  background: var(--color-ledger);
+  color: var(--color-paper);
+}
+
+/* Ruled form rows: the rule IS the layout, no cards. */
+.rule-t {
+  border-top: 1px solid var(--color-rule);
+}
+.rule-b {
+  border-bottom: 1px solid var(--color-rule);
+}
+
+.label {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+}
+
+.figure {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum";
+}
+
+.ledger-lines {
+  background-image: repeating-linear-gradient(
+    to bottom,
+    transparent 0,
+    transparent 31px,
+    color-mix(in srgb, var(--color-rule) 70%, transparent) 31px,
+    color-mix(in srgb, var(--color-rule) 70%, transparent) 32px
+  );
+}
+
+.focus-ring:focus-visible {
+  outline: 2px solid var(--color-ledger);
+  outline-offset: 2px;
+}
+
+@media print {
+  .no-print {
+    display: none !important;
+  }
+  body {
+    background: #fff;
+  }
+  .print-sheet {
+    box-shadow: none !important;
+    border: none !important;
+  }
+}

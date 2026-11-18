@@ -1,0 +1,18 @@
+{
+  "name": "Mudia WebQuote",
+  "short_name": "WebQuote",
+  "description": "Rule-based website estimate calculator for Mudia.",
+  "start_url": "/calculator",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#f2ece1",
+  "theme_color": "#f2ece1",
+  "icons": [
+    {
+      "src": "/icons/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
