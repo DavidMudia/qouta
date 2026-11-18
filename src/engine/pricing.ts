@@ -1,4 +1,5 @@
 import { assessRequirements } from "./assessment";
+import { formatNaira } from "@/lib/format";
 import type { Answers, CategoryCode, TimelineCode } from "./requirements";
 
 /* ------------------------------------------------------------------ *
