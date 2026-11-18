@@ -72,8 +72,12 @@ async function readWorking(): Promise<PricingSnapshot> {
 }
 
 export async function getWorkingSnapshot(): Promise<PricingSnapshot> {
-  await ensurePricingSeeded();
-  return readWorking();
+  try {
+    await ensurePricingSeeded();
+    return await readWorking();
+  } catch {
+    return DEFAULT_SNAPSHOT;
+  }
 }
 
 /** Saves a full configuration snapshot and makes it the customer-visible one. */
@@ -99,14 +103,18 @@ export async function publishVersion(note: string, by: string): Promise<PricingS
 
 /** The authoritative price list. Customers read this; they never write it. */
 export async function getPublishedSnapshot(): Promise<PricingSnapshot> {
-  await ensurePricingSeeded();
-  const rows = await db
-    .select()
-    .from(pricingVersions)
-    .orderBy(desc(pricingVersions.version))
-    .limit(1);
-  if (rows.length === 0) return DEFAULT_SNAPSHOT;
-  return rows[0].snapshot as PricingSnapshot;
+  try {
+    await ensurePricingSeeded();
+    const rows = await db
+      .select()
+      .from(pricingVersions)
+      .orderBy(desc(pricingVersions.version))
+      .limit(1);
+    if (rows.length === 0) return DEFAULT_SNAPSHOT;
+    return rows[0].snapshot as PricingSnapshot;
+  } catch {
+    return DEFAULT_SNAPSHOT;
+  }
 }
 
 export async function listVersions() {

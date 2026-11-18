@@ -1,4 +1,4 @@
-import type { PricingSnapshot } from "./pricing";
+import type { PricingSnapshot } from "@/engine/pricing";
 
 /** The configuration a fresh install starts from (also the offline fallback). */
 export const DEFAULT_SNAPSHOT: PricingSnapshot = {

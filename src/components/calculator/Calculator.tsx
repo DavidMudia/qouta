@@ -444,7 +444,7 @@ export function Calculator({ snapshot }: { snapshot: PricingSnapshot }) {
             </button>
             <p className="figure max-w-[36ch] text-xs leading-relaxed text-muted">
               We re-compute this figure on the server against price list v
-              {snapshot.version}. Your browser's arithmetic is a claim, not a
+              {snapshot.version}. Your browser&apos;s arithmetic is a claim, not a
               quotation.
             </p>
             {offline ? (

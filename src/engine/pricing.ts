@@ -1,6 +1,8 @@
 import { assessRequirements } from "./assessment";
-import { formatNaira } from "@/lib/format";
+import { formatNaira as formatCurrency } from "../lib/format";
 import type { Answers, CategoryCode, TimelineCode } from "./requirements";
+
+export { formatNaira } from "../lib/format";
 
 /* ------------------------------------------------------------------ *
  * Pricing configuration — the same shape that lives in pricing_versions
@@ -202,7 +204,7 @@ export function computeEstimate(
     lineItems.push({
       code: "rush",
       label: answers.timeline === "rush" ? "Rush delivery" : "Accelerated delivery",
-      detail: `${Math.round(rushRate)}% uplift on ${formatNaira(baseSubtotal)}`,
+      detail: `${Math.round(rushRate)}% uplift on ${formatCurrency(baseSubtotal)}`,
       group: "rush",
       amount: rushAmount,
     });
@@ -219,8 +221,4 @@ export function computeEstimate(
     version: snapshot.version,
     publishedAt: snapshot.publishedAt,
   };
-}
-
-export function formatNaira(amount: number): string {
-  return `₦${Math.round(amount).toLocaleString("en-NG")}`;
 }
