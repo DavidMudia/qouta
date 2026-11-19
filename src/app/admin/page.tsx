@@ -20,8 +20,8 @@ export default async function AdminPage() {
   const [working, published, versions, submissions] = await Promise.all([
     getWorkingSnapshot(),
     getPublishedSnapshot(),
-    listVersions(),
-    listSubmissions(),
+    listVersions().catch(() => []),
+    listSubmissions().catch(() => []),
   ]);
 
   return (

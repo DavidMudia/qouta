@@ -1,7 +1,7 @@
 import { desc, eq, max } from "drizzle-orm";
 import { db } from "@/db";
 import { pricingCategories, pricingFeatures, pricingVersions } from "@/db/schema";
-import { DEFAULT_SNAPSHOT } from "@/engine/defaultPricing";
+import { DEFAULT_SNAPSHOT } from "@/db/seed"; // FIX: was @/engine/defaultPricing
 import type { PricingSnapshot } from "@/engine/pricing";
 
 /* One seeding task per process, no recursion. */
@@ -75,7 +75,9 @@ export async function getWorkingSnapshot(): Promise<PricingSnapshot> {
   try {
     await ensurePricingSeeded();
     return await readWorking();
-  } catch {
+  } catch (err) {
+    // FIX: log the real error instead of swallowing it
+    console.error("[pricingService] getWorkingSnapshot failed — falling back to DEFAULT_SNAPSHOT:", err);
     return DEFAULT_SNAPSHOT;
   }
 }
@@ -112,7 +114,9 @@ export async function getPublishedSnapshot(): Promise<PricingSnapshot> {
       .limit(1);
     if (rows.length === 0) return DEFAULT_SNAPSHOT;
     return rows[0].snapshot as PricingSnapshot;
-  } catch {
+  } catch (err) {
+    // FIX: log the real error instead of swallowing it
+    console.error("[pricingService] getPublishedSnapshot failed — falling back to DEFAULT_SNAPSHOT:", err);
     return DEFAULT_SNAPSHOT;
   }
 }
@@ -123,6 +127,10 @@ export async function listVersions() {
 }
 
 export async function updateCategoryPrice(id: number, startingPrice: number) {
+  // FIX: fail loudly on a bad id instead of running a no-op UPDATE
+  if (!Number.isInteger(id) || id <= 0) {
+    throw new Error(`updateCategoryPrice: invalid id ${id}`);
+  }
   await db
     .update(pricingCategories)
     .set({ startingPrice })
@@ -130,5 +138,9 @@ export async function updateCategoryPrice(id: number, startingPrice: number) {
 }
 
 export async function updateFeaturePrice(id: number, price: number) {
+  // FIX: fail loudly on a bad id instead of running a no-op UPDATE
+  if (!Number.isInteger(id) || id <= 0) {
+    throw new Error(`updateFeaturePrice: invalid id ${id}`);
+  }
   await db.update(pricingFeatures).set({ price }).where(eq(pricingFeatures.id, id));
 }

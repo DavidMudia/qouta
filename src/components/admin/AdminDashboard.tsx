@@ -4,7 +4,7 @@ import { useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import { AlertTriangle, Check, LogOut, UploadCloud } from "lucide-react";
 import type { PricingSnapshot } from "@/engine/pricing";
-import { formatNaira } from "@/engine/pricing";
+import { formatNaira } from "@/lib/format";
 import { StampSeal } from "@/components/ui/StampSeal";
 
 type VersionRow = {
@@ -33,7 +33,8 @@ type SubmissionRow = {
   outcomeCount: number;
 };
 
-type EditKey = `category:${number}` | `feature:${number}`;
+// FIX: keyed by `code` (always present) instead of `id` (may be undefined)
+type EditKey = `category:${string}` | `feature:${string}`;
 
 export function AdminDashboard({
   admin,
@@ -55,26 +56,37 @@ export function AdminDashboard({
   const [message, setMessage] = useState<string | null>(null);
   const [publishing, setPublishing] = useState(false);
 
+  // FIX: use `code` consistently for both live-vs-working comparison and edits
   const pending = useMemo(() => {
     const keys: string[] = [];
     working.categories.forEach((c) => {
       const live = published.categories.find((p) => p.code === c.code);
-      if (live && live.startingPrice !== c.startingPrice) keys.push(`category:${c.code}`);
-      const edited = edits[`category:${c.id}`];
-      if (edited !== undefined && live && edited !== live.startingPrice)
-        keys.push(`category:${c.code}`);
+      const edited = edits[`category:${c.code}`];
+      const current = edited ?? c.startingPrice;
+      if (live && live.startingPrice !== current) keys.push(`category:${c.code}`);
     });
     working.features.forEach((f) => {
       const live = published.features.find((p) => p.code === f.code);
-      if (live && live.price !== f.price) keys.push(`feature:${f.code}`);
-      const edited = edits[`feature:${f.id}`];
-      if (edited !== undefined && live && edited !== live.price) keys.push(`feature:${f.code}`);
+      const edited = edits[`feature:${f.code}`];
+      const current = edited ?? f.price;
+      if (live && live.price !== current) keys.push(`feature:${f.code}`);
     });
     return Array.from(new Set(keys));
   }, [working, published, edits]);
 
-  async function save(kind: "category" | "feature", id: number) {
-    const key: EditKey = `${kind}:${id}`;
+  // FIX: takes `code` for the state key, `id` only for the API body
+  async function save(
+    kind: "category" | "feature",
+    code: string,
+    id: number | undefined,
+  ) {
+    if (id === undefined) {
+      setMessage(
+        "Cannot save — this row has no database id. Run `npx drizzle-kit push` and restart the server.",
+      );
+      return;
+    }
+    const key: EditKey = `${kind}:${code}`;
     const price = edits[key];
     if (price === undefined) return;
     setSaving(key);
@@ -86,7 +98,9 @@ export function AdminDashboard({
         body: JSON.stringify({ kind, id, price }),
       });
       if (!res.ok) throw new Error();
-      setMessage(`Saved working price for ${kind} #${id}. Customers still see v${published.version}.`);
+      setMessage(
+        `Saved working price for ${code}. Customers still see v${published.version}.`,
+      );
       router.refresh();
     } catch {
       setMessage("Could not save — check authorization session.");
@@ -106,7 +120,9 @@ export function AdminDashboard({
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error);
-      setMessage(`Published v${data.snapshot.version}. Customer calculators pick it up on next load.`);
+      setMessage(
+        `Published v${data.snapshot.version}. Customer calculators pick it up on next load.`,
+      );
       setNote("");
       router.refresh();
     } catch (err) {
@@ -138,7 +154,10 @@ export function AdminDashboard({
           value={value}
           disabled={disabled}
           onChange={(e) =>
-            setEdits((prev) => ({ ...prev, [key]: Math.max(0, Number(e.target.value)) }))
+            setEdits((prev) => ({
+              ...prev,
+              [key]: Math.max(0, Number(e.target.value)),
+            }))
           }
           className="figure focus-ring w-32 border-b border-rule bg-transparent pb-1 text-right outline-none focus:border-ledger disabled:opacity-50"
         />
@@ -172,7 +191,10 @@ export function AdminDashboard({
           </p>
         </div>
         <div className="flex items-center gap-4">
-          <StampSeal version={published.version} publishedAt={published.publishedAt} />
+          <StampSeal
+            version={published.version}
+            publishedAt={published.publishedAt}
+          />
           <button
             type="button"
             onClick={logout}
@@ -241,8 +263,9 @@ export function AdminDashboard({
                       <span className="label">{c.code}</span>
                     </td>
                     <td className="py-3 text-right align-middle">
-                      {priceInput(`category:${c.id ?? 0}`, c.startingPrice, () =>
-                        save("category", c.id ?? 0),
+                      {/* FIX: key by c.code, not c.id */}
+                      {priceInput(`category:${c.code}`, c.startingPrice, () =>
+                        save("category", c.code, c.id),
                       )}
                     </td>
                     <td
@@ -282,8 +305,9 @@ export function AdminDashboard({
                       </span>
                     </td>
                     <td className="py-3 text-right align-middle">
-                      {priceInput(`feature:${f.id ?? 0}`, f.price, () =>
-                        save("feature", f.id ?? 0),
+                      {/* FIX: key by f.code, not f.id */}
+                      {priceInput(`feature:${f.code}`, f.price, () =>
+                        save("feature", f.code, f.id),
                       )}
                     </td>
                     <td
