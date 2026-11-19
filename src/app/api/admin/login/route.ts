@@ -1,6 +1,6 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { issueSession, setSessionCookie } from "@/lib/session";
-import { loginAdmin, devCredentialsHint } from "@/services/authService";
+import { loginAdmin } from "@/services/authService";
 
 export const dynamic = "force-dynamic";
 
@@ -29,5 +29,5 @@ export async function POST(req: NextRequest) {
 }
 
 export async function GET() {
-  return NextResponse.json({ ok: true, hint: devCredentialsHint });
+  return NextResponse.json({ ok: true });
 }
