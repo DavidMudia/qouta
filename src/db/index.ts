@@ -1,5 +1,6 @@
-import { drizzle } from "drizzle-orm/node-postgres";
-import { Pool } from "pg";
+import { drizzle } from "drizzle-orm/neon-serverless";
+import { Pool, neonConfig } from "@neondatabase/serverless";
+import ws from "ws";
 
 const databaseUrl = process.env.DATABASE_URL;
 
@@ -15,6 +16,8 @@ if (!/^postgres(ql)?:\/\//.test(databaseUrl)) {
   );
 }
 
+neonConfig.webSocketConstructor = ws;
+
 const globalForDb = globalThis as typeof globalThis & {
   __arenaNextJsPostgresqlPool?: Pool;
 };
@@ -27,4 +30,4 @@ if (process.env.NODE_ENV !== "production") {
   globalForDb.__arenaNextJsPostgresqlPool = pool;
 }
 
-export const db = drizzle(pool);
+export const db = drizzle({ client: pool });

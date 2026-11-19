@@ -1,4 +1,4 @@
-import { requireAdmin, devCredentialsHint } from "@/services/authService";
+import { requireAdmin } from "@/services/authService";
 import {
   getPublishedSnapshot,
   getWorkingSnapshot,
@@ -14,7 +14,7 @@ export default async function AdminPage() {
   const admin = await requireAdmin();
 
   if (!admin) {
-    return <AdminLogin hint={devCredentialsHint} />;
+    return <AdminLogin />;
   }
 
   const [working, published, versions, submissions] = await Promise.all([

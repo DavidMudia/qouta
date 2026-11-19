@@ -4,14 +4,10 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { KeyRound, Loader2 } from "lucide-react";
 
-export function AdminLogin({
-  hint,
-}: {
-  hint: { email: string; password: string | null };
-}) {
+export function AdminLogin() {
   const router = useRouter();
-  const [email, setEmail] = useState(hint.email);
-  const [password, setPassword] = useState(hint.password ?? "");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [busy, setBusy] = useState(false);
 
@@ -105,17 +101,6 @@ export function AdminLogin({
             {busy ? <Loader2 className="h-4 w-4 animate-spin" /> : null}
             Open the dashboard
           </button>
-
-          {hint.password ? (
-            <p className="figure mt-4 text-[11px] leading-relaxed text-muted">
-              Sandbox credentials — {hint.email} / {hint.password}. Set
-              ADMIN_EMAIL and ADMIN_PASSWORD to replace them.
-            </p>
-          ) : (
-            <p className="figure mt-4 text-[11px] text-muted">
-              Administrator account provisioned from environment variables.
-            </p>
-          )}
         </form>
       </div>
     </div>
