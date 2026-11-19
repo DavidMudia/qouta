@@ -17,13 +17,19 @@ const EXAMPLE: Answers = {
   timeline: "standard",
 };
 
-const STACK: [string, string][] = [
-  ["React + TypeScript", "Renders the questionnaire and keeps engine logic predictable"],
-  ["Pricing engine", "Pure functions — answers in, line items out, no UI knowledge"],
-  ["PostgreSQL", "Prices, published versions and customer submissions"],
-  ["Server authorization", "Admin routes resolve identity before any write"],
-  ["Service worker + IndexedDB", "App shell and price snapshot cached; submissions queue offline"],
-  ["Vercel", "Hosts the build and the API routes"],
+const STEPS: [string, string][] = [
+  [
+    "1. See your estimate instantly",
+    "Answer a few plain questions and get a clear price in under two minutes. No sign-up, no sales call, no obligation.",
+  ],
+  [
+    "2. We review your answers",
+    "A real person reads through what you need within 24 hours. If anything changes the price, we tell you before you commit.",
+  ],
+  [
+    "3. We build and launch",
+    "Design, development and go-live — with you at every stage. Most sites go live within 4–6 weeks.",
+  ],
 ];
 
 export default async function HomePage() {
@@ -47,51 +53,52 @@ export default async function HomePage() {
         </div>
 
         <div className="mx-auto grid max-w-[1400px] gap-10 px-5 pt-16 pb-14 sm:px-8 lg:grid-cols-12 lg:pt-24 lg:pb-20">
-          <div className="lg:col-span-5 lg:col-start-6">
-            <p className="label">Estimate book № 04 · Lagos</p>
-            <h1 className="mt-4 font-display leading-[0.86] tracking-[-0.02em] text-[clamp(3.25rem,11vw,8.5rem)]">
-              Know what it
+          <div className="lg:col-span-6 lg:col-start-5">
+            <p className="label">Free instant estimate · No sign-up needed</p>
+            <h1 className="mt-4 font-display leading-[0.86] tracking-[-0.02em] text-[clamp(3.25rem,10vw,7.5rem)]">
+              Beautiful websites.
               <br />
-              <span className="italic text-ledger">costs</span> before
+              <span className="italic text-ledger">Honest prices.</span>
               <br />
-              you ask us.
+              No surprises.
             </h1>
-            <p className="mt-6 max-w-[46ch] text-[1.05rem] leading-relaxed text-ink/85">
-              Answer six plain-language questions. The engine derives the
-              architecture you actually need, prices it against the currently
-              published price list, and prints a docket you can keep.
+            <p className="mt-6 max-w-[48ch] text-[1.05rem] leading-relaxed text-ink/85">
+              We build websites that look great, load fast, and work on every
+              screen — for businesses and creators who want clarity up front.
+              Answer a few questions, see your exact estimate, and we'll take
+              it from there.
             </p>
 
-            <div className="mt-8 flex flex-wrap items-center gap-4">
+            <div className="mt-8 flex flex-wrap items-center gap-5">
               <Link
                 href="/calculator"
-                className="focus-ring group inline-flex items-center gap-2 bg-ledger px-6 py-3.5 text-sm font-semibold text-paper transition-colors hover:bg-ledgerdark"
+                className="focus-ring group inline-flex items-center gap-3 bg-ledger px-8 py-4 text-base font-bold text-paper shadow-lg shadow-ledgerdark/20 transition-all hover:bg-ledgerdark hover:shadow-xl hover:shadow-ledgerdark/30"
               >
-                Start the estimate
-                <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+                Start your estimate
+                <ArrowRight className="h-5 w-5 transition-transform group-hover:translate-x-1" />
               </Link>
               <StampSeal version={snapshot.version} publishedAt={snapshot.publishedAt} />
             </div>
 
             <p className="mt-6 max-w-[44ch] border-l-2 border-stamp pl-3 text-sm leading-relaxed text-muted">
-              An estimate, not a final quotation. We still review the
-              requirements with you before the price is agreed.
+              An estimate, not a final quote — we'll confirm the price with
+              you before any work begins.
             </p>
           </div>
         </div>
       </section>
 
-      {/* ---------------------------------------------------- price ledger */}
+      {/* ---------------------------------------------------- price list */}
       <section className="mx-auto max-w-[1400px] px-5 pt-16 sm:px-8">
         <div className="flex flex-wrap items-end justify-between gap-4">
           <div>
-            <p className="label">Published price list</p>
+            <p className="label">Our prices, in full</p>
             <h2 className="mt-2 font-display text-[clamp(2rem,4vw,3.25rem)] leading-none">
-              What the engine charges for
+              What each part of your site costs
             </h2>
           </div>
           <p className="figure max-w-[40ch] text-xs leading-relaxed text-muted">
-            Version {snapshot.version} · published{" "}
+            Version {snapshot.version} · updated{" "}
             {new Date(snapshot.publishedAt).toLocaleString("en-GB", {
               dateStyle: "medium",
               timeStyle: "short",
@@ -143,26 +150,26 @@ export default async function HomePage() {
         </div>
 
         <p className="figure mt-5 text-xs text-muted">
-          {snapshot.includedPages} pages included in every base price · estimate
-          range = subtotal × {snapshot.rangeFactor} · rush uplift{" "}
-          {Math.round(snapshot.rushRates.rush)}%
+          Every base price includes {snapshot.includedPages} pages · final
+          estimates range from the subtotal up to {snapshot.rangeFactor}×,
+          depending on the final scope · need it faster? Rush delivery adds{" "}
+          {Math.round(snapshot.rushRates.rush)}%.
         </p>
       </section>
 
-      {/* -------------------------------------------------- worked example */}
+      {/* ------------------------------------------------ real example */}
       <section className="mt-20 border-y border-rule bg-sheet/70">
         <div className="mx-auto grid max-w-[1400px] gap-10 px-5 py-14 sm:px-8 lg:grid-cols-12">
           <div className="lg:col-span-4">
-            <p className="label">Reasoning engine · worked example</p>
+            <p className="label">See exactly how we build a price</p>
             <h2 className="mt-3 font-display text-[clamp(2rem,3.4vw,3rem)] leading-[0.95]">
-              The customer never says
-              <span className="italic"> “I need RBAC”</span>.
+              Nothing hidden.
+              <span className="italic"> Here's a real one.</span>
             </h2>
             <p className="mt-4 text-sm leading-relaxed text-muted">
-              They say what visitors and staff should be able to do. The rules
-              in <code className="figure text-ink">engine/assessment.ts</code>{" "}
-              translate that into architecture, and every conclusion carries its
-              reasoning trail.
+              You tell us what visitors and staff should be able to do. We
+              translate that into the actual features your site needs, and show
+              you how each part contributes to the price.
             </p>
             <blockquote className="mt-6 border-l-2 border-ledger pl-4 text-[0.95rem] leading-relaxed">
               “Visitors can register and pay. Staff manage registrations, and
@@ -176,6 +183,11 @@ export default async function HomePage() {
 
           <div className="lg:col-span-8">
             <div className="border-t-2 border-ink">
+              <div className="grid gap-2 border-b border-rule py-2 sm:grid-cols-[1.1fr_1.4fr_1fr] sm:gap-5">
+                <p className="label">What you tell us</p>
+                <p className="label">What it means</p>
+                <p className="label">What's included</p>
+              </div>
               {trace.map((step) => (
                 <div
                   key={step.from}
@@ -203,7 +215,7 @@ export default async function HomePage() {
 
             <div className="mt-6 grid gap-6 sm:grid-cols-2">
               <div>
-                <p className="label">Priced line items</p>
+                <p className="label">Line by line</p>
                 <ul className="mt-2">
                   {estimate.lineItems.map((i) => (
                     <li
@@ -220,22 +232,22 @@ export default async function HomePage() {
               </div>
               <div className="flex flex-col justify-between gap-4">
                 <div>
-                  <p className="label">Result</p>
+                  <p className="label">Their estimate</p>
                   <p className="figure mt-2 text-3xl font-semibold text-ledger">
                     {formatNaira(estimate.estimateMin)}
                     <span className="text-muted"> – </span>
                     {formatNaira(estimate.estimateMax)}
                   </p>
                   <p className="mt-1 text-xs text-muted">
-                    subtotal {formatNaira(estimate.subtotal)} ×{" "}
-                    {snapshot.rangeFactor}, priced on version {snapshot.version}
+                    subtotal {formatNaira(estimate.subtotal)} · priced on
+                    version {snapshot.version}
                   </p>
                 </div>
                 <Link
                   href="/calculator"
                   className="focus-ring inline-flex w-fit items-center gap-2 border border-ink px-5 py-3 text-sm font-semibold transition-colors hover:bg-ink hover:text-paper"
                 >
-                  Run your own answers
+                  Get your own estimate
                   <ArrowRight className="h-4 w-4" />
                 </Link>
               </div>
@@ -244,18 +256,38 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* ------------------------------------------------------- stack */}
-      <section className="mx-auto max-w-[1400px] px-5 pt-16 sm:px-8">
-        <p className="label">Division of responsibility</p>
-        <div className="mt-5 grid gap-x-10 sm:grid-cols-2 lg:grid-cols-3">
-          {STACK.map(([tech, job]) => (
-            <div key={tech} className="border-t border-rule py-4">
-              <p className="figure text-[0.8rem] font-semibold uppercase tracking-[0.12em] text-ledgerdark">
-                {tech}
-              </p>
-              <p className="mt-1.5 text-sm leading-relaxed text-muted">{job}</p>
+      {/* --------------------------------------------- what happens next */}
+      <section className="mx-auto max-w-[1400px] px-5 pt-16 pb-20 sm:px-8">
+        <p className="label">From estimate to launch</p>
+        <h2 className="mt-2 max-w-[24ch] font-display text-[clamp(2rem,4vw,3.25rem)] leading-[0.95]">
+          What happens after you see your price
+        </h2>
+
+        <div className="mt-10 grid gap-x-10 gap-y-8 sm:grid-cols-3">
+          {STEPS.map(([title, body]) => (
+            <div key={title} className="border-t-2 border-ink pt-5">
+              <p className="font-display text-xl leading-tight">{title}</p>
+              <p className="mt-2 text-sm leading-relaxed text-muted">{body}</p>
             </div>
           ))}
+        </div>
+
+        <div className="mt-14 border-y border-rule bg-sheet/60 px-6 py-12 text-center sm:px-10">
+          <h3 className="font-display text-[clamp(1.75rem,3.5vw,2.75rem)] leading-[0.95]">
+            Ready to see what your website will cost?
+          </h3>
+          <p className="mt-3 text-sm text-muted">
+            Takes about 2 minutes. No sign-up. No sales calls. No obligation.
+          </p>
+          <div className="mt-7 flex justify-center">
+            <Link
+              href="/calculator"
+              className="focus-ring group inline-flex items-center gap-3 bg-ledger px-8 py-4 text-base font-bold text-paper shadow-lg shadow-ledgerdark/20 transition-all hover:bg-ledgerdark hover:shadow-xl hover:shadow-ledgerdark/30"
+            >
+              Start your estimate
+              <ArrowRight className="h-5 w-5 transition-transform group-hover:translate-x-1" />
+            </Link>
+          </div>
         </div>
       </section>
     </>
