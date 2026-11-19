@@ -61,7 +61,7 @@ export function SiteFooter() {
           <p>Offline · service worker + IndexedDB</p>
         </div>
         <div className="label space-y-2 sm:text-right">
-          <p>Lagos, Nigeria</p>
+          <p> Nigeria</p>
           <p>hello@mudia.ng</p>
           <p className="text-stamp">Estimate, not a final quotation</p>
         </div>

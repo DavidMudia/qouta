@@ -39,7 +39,7 @@ export function DraftStamp({ label = "Draft estimate" }: { label?: string }) {
           {label}
         </div>
         <div className="figure mt-0.5 text-center text-[9px] uppercase tracking-[0.22em] opacity-80">
-          Mudia · Lagos · Not a final quotation
+          Mudia · Not a final quotation
         </div>
       </div>
     </div>
