@@ -48,13 +48,7 @@ export function AdminLogin() {
           invitations, no admin roles to configure — just one password for the
           person who runs it.
         </p>
-        <ul className="mt-6 space-y-2 border-t border-rule pt-4 text-sm text-muted">
-          <li>· Session is a signed, httpOnly cookie — not visible to scripts</li>
-          <li>· Password stored as a salted scrypt hash, never plaintext</li>
-          <li>· Visitors see the published price list only, read-only</li>
-          <li>· You can edit working prices, publish versions, review enquiries</li>
-          <li>· Only an allowlisted owner email can sign in — everyone else is rejected before the database is consulted</li>
-        </ul>
+    
       </div>
 
       <div className="lg:col-span-5 lg:col-start-7">
