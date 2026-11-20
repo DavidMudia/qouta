@@ -1,5 +1,5 @@
 "use client";
-
+import { BRAND } from "@/lib/brand";
 import { useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
@@ -226,13 +226,31 @@ export default function QuotePage() {
       <div className="mt-8 grid gap-10 lg:grid-cols-12 lg:gap-14">
         <div className="lg:col-span-5">
           {/* Capturable region — this is what gets exported as a PNG */}
-          <div ref={docketRef} className="bg-paper p-4">
-            <Docket data={view.data} animate={!reduce} />
-            <p className="mt-3 flex items-center justify-between border-t border-rule pt-2 figure text-[10px] uppercase tracking-[0.12em] text-muted">
-              <span>qouta · instant website estimates</span>
-              <span className="truncate">{view.data.ref}</span>
-            </p>
-          </div>
+<div ref={docketRef} className="bg-paper p-5 sm:p-6">
+  {/* Letterhead — appears on screen, in print, and in the shared PNG */}
+  <div className="mb-5 flex flex-wrap items-start justify-between gap-3 border-b-2 border-ink pb-4">
+    <div>
+      <p className="font-display text-2xl leading-none tracking-tight">
+        {BRAND.name}
+      </p>
+      <p className="figure mt-1.5 text-[10px] uppercase tracking-[0.14em] text-muted">
+        {BRAND.tagline}
+      </p>
+    </div>
+    <div className="figure text-right text-[10px] leading-relaxed">
+      <p className="text-ink">{BRAND.phone}</p>
+      <p className="break-all text-muted">{BRAND.email}</p>
+    </div>
+  </div>
+
+  <Docket data={view.data} animate={!reduce} />
+
+  {/* Footer — ref echoes the document id */}
+  <div className="mt-4 flex items-baseline justify-between border-t border-rule pt-3 figure text-[10px] uppercase tracking-[0.12em] text-muted">
+    <span>Ref · {view.data.ref}</span>
+    <span>{BRAND.name}</span>
+  </div>
+</div>
 
           <p className="mt-4 text-xs leading-relaxed text-muted no-print">
             An estimate, not a final quotation. Prices include the currently

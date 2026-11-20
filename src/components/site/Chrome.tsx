@@ -62,7 +62,8 @@ export function SiteFooter() {
         </div>
         <div className="label space-y-2 sm:text-right">
           <p> Nigeria</p>
-          <p>hello@mudia.ng</p>
+          <p>oyedohosemudiamen@gmail.com</p>
+          <p>+234 915 769 9915</p>
           <p className="text-stamp">Estimate, not a final quotation</p>
         </div>
       </div>

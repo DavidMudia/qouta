@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { KeyRound, Loader2 } from "lucide-react";
+import { BRAND } from "@/lib/brand";
 
 export function AdminLogin() {
   const router = useRouter();
@@ -37,21 +38,22 @@ export function AdminLogin() {
   return (
     <div className="mx-auto grid max-w-[1400px] gap-12 px-5 py-16 sm:px-8 lg:grid-cols-12">
       <div className="lg:col-span-5">
-        <p className="label">Restricted · developer console</p>
+        <p className="label">Private · owner sign-in</p>
         <h1 className="mt-3 font-display text-[clamp(2.4rem,5vw,4rem)] leading-[0.9]">
-          Authorization
-          <span className="italic text-ledger"> first</span>.
+          Just <span className="italic text-ledger">you</span> here.
         </h1>
         <p className="mt-4 max-w-[46ch] text-sm leading-relaxed text-muted">
-          Authentication decides who you are. Authorization decides what you may
-          change. Both are resolved on the server before a single price row is
-          touched — hiding the route in React is not a control we rely on.
+          {BRAND.shortName} is a one-person product by {BRAND.owner} of{" "}
+          {BRAND.name.split(" by ")[1] ?? "Axylum-Mudia"}. No sign-up, no team
+          invitations, no admin roles to configure — just one password for the
+          person who runs it.
         </p>
         <ul className="mt-6 space-y-2 border-t border-rule pt-4 text-sm text-muted">
-          <li>· Session is an HMAC-signed, httpOnly cookie</li>
-          <li>· Passwords stored as salted scrypt digests</li>
-          <li>· Customer role: read published prices only</li>
-          <li>· Admin role: edit working prices, publish versions</li>
+          <li>· Session is a signed, httpOnly cookie — not visible to scripts</li>
+          <li>· Password stored as a salted scrypt hash, never plaintext</li>
+          <li>· Visitors see the published price list only, read-only</li>
+          <li>· You can edit working prices, publish versions, review enquiries</li>
+          <li>· Only an allowlisted owner email can sign in — everyone else is rejected before the database is consulted</li>
         </ul>
       </div>
 
@@ -62,7 +64,7 @@ export function AdminLogin() {
         >
           <div className="flex items-center gap-2 border-b border-rule pb-3">
             <KeyRound className="h-4 w-4 text-stamp" />
-            <p className="label">Administrator sign-in</p>
+            <p className="label">Owner sign-in</p>
           </div>
 
           <label className="mt-5 block">
@@ -99,7 +101,7 @@ export function AdminLogin() {
             className="focus-ring mt-6 inline-flex w-full items-center justify-center gap-2 bg-ledger px-6 py-3 text-sm font-semibold text-paper transition-colors hover:bg-ledgerdark disabled:opacity-60"
           >
             {busy ? <Loader2 className="h-4 w-4 animate-spin" /> : null}
-            Open the dashboard
+            Unlock the price book
           </button>
         </form>
       </div>
