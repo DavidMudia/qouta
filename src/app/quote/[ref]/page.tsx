@@ -7,6 +7,7 @@ import { motion, useReducedMotion } from "framer-motion";
 import { AlertTriangle, Printer, RefreshCw } from "lucide-react";
 import { Docket, type DocketData } from "@/components/ui/Docket";
 import { DraftStamp } from "@/components/ui/StampSeal";
+import { ShareDock } from "@/components/ui/ShareDock";
 import { assessRequirements } from "@/engine/assessment";
 import { normalise, type Answers } from "@/engine/requirements";
 import type { LineItem } from "@/engine/pricing";
@@ -228,6 +229,29 @@ export default function QuotePage() {
             published configuration only; third-party fees (payment gateway,
             SMS, hosting) are billed at cost.
           </p>
+
+          {/* Running costs — not part of the estimate */}
+          <div className="mt-6 border-t border-rule pt-4 no-print">
+            <p className="label">Annual running costs — not in the estimate above</p>
+            <ul className="mt-3 space-y-0 text-sm">
+              <li className="flex items-baseline justify-between gap-3 border-b border-rule py-2">
+                <span>Hosting</span>
+                <span className="figure text-muted">₦0 – 150,000 / year</span>
+              </li>
+              <li className="flex items-baseline justify-between gap-3 border-b border-rule py-2">
+                <span>Domain (.com or .ng)</span>
+                <span className="figure text-muted">₦15,000 – 45,000 / year</span>
+              </li>
+              <li className="flex items-baseline justify-between gap-3 py-2">
+                <span>Payment gateway (if applicable)</span>
+                <span className="figure text-muted">~1.5% per transaction</span>
+              </li>
+            </ul>
+            <p className="mt-3 text-xs leading-relaxed text-muted">
+              Billed at cost — we don&apos;t mark these up. We&apos;ll confirm
+              exact figures before any work begins.
+            </p>
+          </div>
         </div>
 
         <div className="lg:col-span-7">
@@ -294,6 +318,15 @@ export default function QuotePage() {
           </div>
         </div>
       </div>
+
+      {/* Floating share dock — only for real, server-resolvable refs */}
+      {!view.queued ? (
+        <ShareDock
+          path={`/quote/${view.data.ref}`}
+          title="My Qouta estimate"
+          text="Instant website estimate from Qouta — see what yours would cost:"
+        />
+      ) : null}
     </div>
   );
 }

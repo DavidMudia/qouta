@@ -311,6 +311,23 @@ export function Calculator({ snapshot }: { snapshot: PricingSnapshot }) {
               </button>
             ))}
           </div>
+
+          {/* NEW — what a "page" means */}
+          <details className="group mt-2">
+            <summary className="focus-ring inline-flex cursor-pointer items-center gap-1.5 text-xs text-muted underline-offset-4 hover:text-ink hover:underline">
+              <span className="inline-block transition-transform group-open:rotate-90">
+                ▸
+              </span>
+              How we count pages
+            </summary>
+            <p className="mt-2 max-w-[60ch] text-xs leading-relaxed text-muted">
+              Each distinct layout counts as one page — Home, About, Contact
+              = 3. A blog with 100 posts that share the same template counts as
+              2 pages (the list page and the post page), not 100. Most sites
+              land between 5 and 12.
+            </p>
+          </details>
+
           {pages > snapshot.includedPages ? (
             <p className="figure mt-2 text-xs text-ledgerdark">
               +{pages - snapshot.includedPages} page
