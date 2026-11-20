@@ -95,10 +95,10 @@ export function AdminLogin() {
             className="focus-ring mt-6 inline-flex w-full items-center justify-center gap-2 bg-ledger px-6 py-3 text-sm font-semibold text-paper transition-colors hover:bg-ledgerdark disabled:opacity-60"
           >
             {busy ? <Loader2 className="h-4 w-4 animate-spin" /> : null}
-            Unlock the price book
+            Open Sesame ✨
           </button>
         </form>
-      </div>
     </div>
+      </div>
   );
 }
