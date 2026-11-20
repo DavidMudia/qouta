@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { motion, useReducedMotion } from "framer-motion";
@@ -58,6 +58,8 @@ export default function QuotePage() {
   const params = useParams<{ ref: string }>();
   const ref = params?.ref ?? "";
   const reduce = useReducedMotion();
+
+  const docketRef = useRef<HTMLDivElement>(null);
 
   const [server, setServer] = useState<ServerShape | null>(null);
   const [local, setLocal] = useState<LocalShape | null>(null);
@@ -223,7 +225,15 @@ export default function QuotePage() {
 
       <div className="mt-8 grid gap-10 lg:grid-cols-12 lg:gap-14">
         <div className="lg:col-span-5">
-          <Docket data={view.data} animate={!reduce} />
+          {/* Capturable region — this is what gets exported as a PNG */}
+          <div ref={docketRef} className="bg-paper p-4">
+            <Docket data={view.data} animate={!reduce} />
+            <p className="mt-3 flex items-center justify-between border-t border-rule pt-2 figure text-[10px] uppercase tracking-[0.12em] text-muted">
+              <span>qouta · instant website estimates</span>
+              <span className="truncate">{view.data.ref}</span>
+            </p>
+          </div>
+
           <p className="mt-4 text-xs leading-relaxed text-muted no-print">
             An estimate, not a final quotation. Prices include the currently
             published configuration only; third-party fees (payment gateway,
@@ -322,8 +332,9 @@ export default function QuotePage() {
       {/* Floating share dock — only for real, server-resolvable refs */}
       {!view.queued ? (
         <ShareDock
+          targetRef={docketRef}
           path={`/quote/${view.data.ref}`}
-          title="My Qouta estimate"
+          title={`Qouta estimate ${view.data.ref}`}
           text="Instant website estimate from Qouta — see what yours would cost:"
         />
       ) : null}
